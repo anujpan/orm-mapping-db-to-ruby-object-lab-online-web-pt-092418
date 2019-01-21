@@ -1,3 +1,21 @@
+Skip to content
+ 
+Search or jump to…
+
+Pull requests
+Issues
+Marketplace
+Explore
+ @anujpan Sign out
+34
+0 6 learn-co-students/orm-mapping-db-to-ruby-object-lab-online-web-pt-092418
+ Code  Issues 0  Pull requests 5  Projects 0  Insights
+orm-mapping-db-to-ruby-object-lab-online-web-pt-092418/lib/student.rb
+fa5f3e4  19 days ago
+@victorggabriel victorggabriel Done.
+@joshuabamboo @victorggabriel
+      
+116 lines (96 sloc)  2.31 KB
 class Student
   attr_accessor :id, :name, :grade
 
@@ -8,19 +26,28 @@ class Student
     new_students.name = row[1]
     new_students.grade = row[2]
     new_students
+    # create a new Student object given a row from the database
   end
 
   def self.all
-    sql = <<-SQL
+      sql = <<-SQL
       SELECT * FROM students
-    SQL
-
+SQL
+    # retrieve all the rows from the "Students" database
+    # remember each row should be a new instance of the Student class
     DB[:conn].execute(sql).collect do |row|
       self.new_from_db(row)
     end
   end
 
   def self.find_by_name(name)
+    sql = <<-SQL
+      SELECT * FROM students WHERE name = ? LIMIT 1
+    SQL
+
+    DB[:conn].execute(sql, name).map do |row|
+        self.new_from_db(row)
+    end.first
     # find the student in the database given a name
     # return a new instance of the Student class
   end
@@ -50,4 +77,70 @@ class Student
     sql = "DROP TABLE IF EXISTS students"
     DB[:conn].execute(sql)
   end
+
+  def self.all_students_in_grade_9
+    sql = <<-SQL
+      SELECT * FROM students WHERE grade = 9
+    SQL
+    DB[:conn].execute(sql)
+  end
+
+  def self.students_below_12th_grade
+    sql = <<-SQL
+      SELECT * FROM students WHERE grade < 12
+    SQL
+    DB[:conn].execute(sql).collect  do |row|
+        self.new_from_db(row)
+      end
+  end
+
+  def self.first_X_students_in_grade_10(number)
+    sql = <<-SQL
+      SELECT *
+      FROM students
+      WHERE grade = 10
+      LIMIT ?
+    SQL
+
+    DB[:conn].execute(sql, number).map do |row|
+      self.new_from_db(row)
+    end
+  end
+
+
+  def self.first_student_in_grade_10
+    sql = <<-SQL
+      SELECT *
+      FROM students
+      WHERE grade = 10
+      ORDER BY students.id LIMIT 1
+    SQL
+
+    DB[:conn].execute(sql).map do |row|
+      self.new_from_db(row)
+    end.first
+  end
+
+  def self.all_students_in_grade_X(grade)
+    sql = <<-SQL
+      SELECT * FROM students WHERE grade = ?
+    SQL
+
+    DB[:conn].execute(sql, grade).collect do |row|
+      self.new_from_db(row)
+    end
+  end
 end
+© 2019 GitHub, Inc.
+Terms
+Privacy
+Security
+Status
+Help
+Contact GitHub
+Pricing
+API
+Training
+Blog
+About
+Press h to open a hovercard with more details.
