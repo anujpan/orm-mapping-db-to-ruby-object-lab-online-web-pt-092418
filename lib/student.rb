@@ -1,21 +1,3 @@
-Skip to content
- 
-Search or jump to…
-
-Pull requests
-Issues
-Marketplace
-Explore
- @anujpan Sign out
-34
-0 6 learn-co-students/orm-mapping-db-to-ruby-object-lab-online-web-pt-092418
- Code  Issues 0  Pull requests 5  Projects 0  Insights
-orm-mapping-db-to-ruby-object-lab-online-web-pt-092418/lib/student.rb
-fa5f3e4  19 days ago
-@victorggabriel victorggabriel Done.
-@joshuabamboo @victorggabriel
-      
-116 lines (96 sloc)  2.31 KB
 class Student
   attr_accessor :id, :name, :grade
 
